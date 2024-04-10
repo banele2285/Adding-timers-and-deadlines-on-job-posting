@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Application Deadline Alert</title>
+</head>
+<body>
+
+<h1>Job Application Deadline Alert</h1>
+
+<div id="countdown"></div>
+
+<script>
+// Set the deadline for job application (replace with your desired deadline)
+const deadline = new Date('2024-05-01 12:00:00').getTime();
+
+// Function to update countdown timer
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = deadline - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('countdown').innerHTML = `
+        <div>${days} days</div>
+        <div>${hours} hours</div>
+        <div>${minutes} minutes</div>
+        <div>${seconds} seconds</div>
+    `;
+
+    // Send notification when reaching close to deadline (e.g., 1 day remaining)
+    if (distance < 86400000) { // 1 day in milliseconds
+        sendNotification();
+    }
+
+    // If the countdown has ended, display an alert
+    if (distance < 0) {
+        clearInterval(timer);
+        document.getElementById('countdown').innerHTML = "Application deadline has passed.";
+        // Optionally, you can display an alert here:
+        // alert("Application deadline has passed.");
+    }
+}
+
+// Function to send notification
+function sendNotification() {
+    // You can implement notification logic here (e.g., display a browser notification)
+    // For simplicity, we'll use an alert for demonstration purposes
+    alert("Application deadline is approaching! Hurry up!");
+}
+
+// Update countdown every second
+const timer = setInterval(updateCountdown, 1000);
+
+// Initial call to update countdown immediately
+updateCountdown();
+</script>
+
+</body>
+</html>
